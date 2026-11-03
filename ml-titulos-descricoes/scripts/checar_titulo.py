@@ -39,6 +39,12 @@ def checar(t):
 
 
 def main():
+    # No Windows o terminal costuma usar cp1252; força UTF-8 para acentos e emojis não quebrarem a saída.
+    for fluxo in (sys.stdout, sys.stdin):
+        try:
+            fluxo.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
     titulos = sys.argv[1:] or [l for l in sys.stdin.read().splitlines() if l.strip()]
     if not titulos:
         print(__doc__)
